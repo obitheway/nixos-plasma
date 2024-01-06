@@ -8,6 +8,7 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      ./vm.nix
     ];
 
   # Bootloader.
@@ -49,17 +50,15 @@
   # Enable the KDE Plasma Desktop Environment.
   services.xserver.displayManager.sddm.enable = true;
   services.xserver.desktopManager.plasma5.enable = true;
-
-  # Configure NFS
-  fileSystems."/mnt/knox" = {
-    device = "192.168.114.240:/mnt/Knox/media";
-    fsType = "nfs";
-  };
-
   # Configure keymap in X11
   services.xserver = {
     layout = "us";
     xkbVariant = "";
+  };
+  # Configure NFS 
+fileSystems."/mnt/knox" = {
+    device = "192.168.114.240:/mnt/Knox/media";
+    fsType = "nfs";
   };
 
   # Enable CUPS to print documents.
@@ -92,40 +91,42 @@
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
 brave 
-caffeine-ng 
-dig
+caffeine-ng
+dig 
 element-desktop
 filezilla 
 firefox
 flameshot
 geany
 gimp
+git
 gparted
-htop 
+htop
 inetutils
-inkscape-with-extensions
-iperf
+iperf 
 kate
-libreoffice
+libreoffice 
 libsForQt5.ktouch
-neofetch 
+neofetch
 nextcloud-client
 nfs-utils
 openssh
-protonvpn-gui 
+pciutils
+protonvpn-gui
+python3 
 rar
 remmina
 signal-desktop
 speedtest-cli
 spotify
 tailscale
-thunderbird 
+thunderbird
 transmission-gtk 
 virtualbox 
 vivaldi 
 vlc 
 vscode
-wireshark 
+wireshark
     ];
   };
 
