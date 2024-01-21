@@ -80,7 +80,12 @@ fileSystems."/mnt/knox" = {
     # no need to redefine it in your config for now)
     #media-session.enable = true;
   };
-
+  # Enable Steam
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
+    dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
+};
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
   # Enable BBR congestion control
