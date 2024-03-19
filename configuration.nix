@@ -8,7 +8,9 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      ./vm.nix
+      ./vm.nix   
+      # Link to unstable Cosmic
+     # ./unstable.nix
     ];
 
   # Bootloader.
@@ -50,15 +52,23 @@
   # Enable the KDE Plasma Desktop Environment.
   services.xserver.displayManager.sddm.enable = true;
   services.xserver.desktopManager.plasma5.enable = true;
+  # Enable Gnome
+  # services.xserver.displayManager.gdm.enable = true;
+  # services.xserver.desktopManager.gnome.enable = true;
+  # Enable Virtualization
+  # virtualisation.virtualbox.host.enable = true;
+  # virtualisation.virtualbox.host.enableExtensionPack = true;
+  # users.extraGroups.vboxusers.members = [ "user-with-access-to-virtualbox" ];
+  # Configure NFS
+  fileSystems."/mnt/knox" = {
+    device = "192.168.114.240:/mnt/Knox/media";
+    fsType = "nfs";
+  };
+
   # Configure keymap in X11
   services.xserver = {
     layout = "us";
     xkbVariant = "";
-  };
-  # Configure NFS 
-fileSystems."/mnt/knox" = {
-    device = "192.168.114.240:/mnt/Knox/media";
-    fsType = "nfs";
   };
 
   # Enable CUPS to print documents.
@@ -80,14 +90,10 @@ fileSystems."/mnt/knox" = {
     # no need to redefine it in your config for now)
     #media-session.enable = true;
   };
-  # Enable Steam
-  programs.steam = {
-    enable = true;
-    remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
-    dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
-};
+
   # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
+  services.xserver.libinput.enable = true;
+
   # Enable BBR congestion control
   boot.kernelModules = [ "tcp_bbr" ];
   boot.kernel.sysctl."net.ipv4.tcp_congestion_control" = "bbr";
@@ -122,6 +128,7 @@ fileSystems."/mnt/knox" = {
   # system-wide amount of memory to use for TCP, counted in pages) because
   # the kernel sets that to a high default of ~9% of system memory, see:
   # * https://github.com/torvalds/linux/blob/a1d21081a60dfb7fddf4a38b66d9cef603b317a9/net/ipv4/tcp.c#L4116
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.obi = {
     isNormalUser = true;
@@ -130,7 +137,8 @@ fileSystems."/mnt/knox" = {
     packages = with pkgs; [
 brave 
 caffeine-ng
-dig 
+calibre 
+dig
 element-desktop
 filezilla 
 firefox
@@ -139,32 +147,42 @@ geany
 gimp
 git
 gparted
-htop
+htop 
 inetutils
-iperf 
+inkscape-with-extensions
+iperf
 kate
-libreoffice 
+kontact
+krita
+
+libreoffice
 libsForQt5.ktouch
-neofetch
+logseq
+mysql80
+neofetch 
 nextcloud-client
 nfs-utils
+nmap
 openssh
-pciutils
-protonvpn-gui
-python3 
+openvpn
+protonvpn-gui 
+putty
+python3
 rar
 remmina
 signal-desktop
 speedtest-cli
 spotify
+superTux
 tailscale
 thunderbird
-transmission-gtk 
-virtualbox 
+tor
+transmission-gtk
 vivaldi 
 vlc 
 vscode
 wireshark
+youtube-dl 
     ];
   };
 
@@ -173,9 +191,14 @@ wireshark
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; [
+  pkgs.ollama
   #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
   #  wget
+  # gnome.gnome-software
+  # gnome-extension-manager
+  # gnomeExtensions.dash-to-panel
+  # gnome.gnome-tweaks
+  # gnomeExtensions.caffeine
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -193,6 +216,9 @@ wireshark
   hardware.enableAllFirmware = true; 
   # Enable Tailscale
   services.tailscale.enable = true;
+  # Enable MySQL
+  users.mysql.host = "2660";
+
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
 
