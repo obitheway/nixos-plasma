@@ -129,12 +129,19 @@
   # the kernel sets that to a high default of ~9% of system memory, see:
   # * https://github.com/torvalds/linux/blob/a1d21081a60dfb7fddf4a38b66d9cef603b317a9/net/ipv4/tcp.c#L4116
 
+  # Install NeoVIM
+  programs.neovim = {
+    enable = true;
+    defaultEditor = true;
+  };
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.obi = {
     isNormalUser = true;
     description = "obi";
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
+android-tools
 bluez
 brave 
 caffeine-ng
@@ -144,9 +151,10 @@ element-desktop
 filezilla 
 firefox
 flameshot
+floorp
 geany
 gimp
-git
+# git
 gparted
 htop 
 inetutils
@@ -155,7 +163,7 @@ iperf
 kate
 kontact
 krita
-
+lagrange
 libreoffice
 libsForQt5.ktouch
 logseq
@@ -169,6 +177,7 @@ openvpn
 protonvpn-gui 
 putty
 python3
+qflipper
 rar
 remmina
 signal-desktop
@@ -182,6 +191,7 @@ transmission-gtk
 vivaldi 
 vlc 
 vscode
+warp-terminal
 wireshark
 youtube-dl 
     ];
@@ -234,6 +244,6 @@ youtube-dl
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "23.05"; # Did you read the comment?
+  system.stateVersion = "24.05"; # Did you read the comment?
 
 }
