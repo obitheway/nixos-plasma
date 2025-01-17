@@ -16,11 +16,7 @@
     spice-protocol
     win-virtio
     win-spice
-<<<<<<< HEAD
-    gnome.adwaita-icon-theme
-=======
     pkgs.adwaita-icon-theme
->>>>>>> fix-sshfs-commit
   ];
 
   # Manage the virtualisation services
