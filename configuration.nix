@@ -39,7 +39,7 @@
   };
 
   # Enable Flakes
-  #  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   # Enable Wayland
   services.displayManager.defaultSession = "plasmawayland";  
@@ -47,11 +47,6 @@
   # Enable the KDE Plasma Desktop Environment.
   services.displayManager.sddm.enable = true;
   services.xserver.desktopManager.plasma5.enable = true;
-
-  # Enable Cosmic
-  # services.desktopManager.cosmic.enable = true;
-  # services.displayManager.cosmic-greeter.enable = true;
-  # services.displayManager.defaultSession = "cosmic";
   
   # Configure Xserver and keymap in X11
   services.xserver = {
@@ -86,27 +81,11 @@
   # Enable Tailscale
   services.tailscale.enable = true;
 
-  # Enable XRDP
-  # services.xrdp.enable = true;
-  # services.xrdp.defaultWindowManager = "plasma5";
-  # networking.firewall.allowedTCPPorts = [3389 ];
-  
   # Configure NFS
   fileSystems."/mnt/knox" = {
     device = "192.168.114.240:/mnt/Knox/media";
     fsType = "nfs";
   };
-
-  # Enable BBR congestion control
-  boot.kernelModules = [ "tcp_bbr" ];
-  boot.kernel.sysctl."net.ipv4.tcp_congestion_control" = "bbr";
-  boot.kernel.sysctl."net.core.default_qdisc" = "fq";
-  
-  # TCP window sizes for high-bandwidth WAN connections
-  boot.kernel.sysctl."net.core.wmem_max" = 1073741824; # 1 GiB
-  boot.kernel.sysctl."net.core.rmem_max" = 1073741824; # 1 GiB
-  boot.kernel.sysctl."net.ipv4.tcp_rmem" = "4096 87380 1073741824"; # 1 GiB max
-  boot.kernel.sysctl."net.ipv4.tcp_wmem" = "4096 87380 1073741824"; # 1 GiB max
 
   #SSHD
   services.openssh = {
@@ -115,16 +94,17 @@
     settings.PasswordAuthentication = false;
     settings.KbdInteractiveAuthentication = false;
     #settings.PermitRootLogin = "yes";
-};
+  };
   users.users."obi".openssh.authorizedKeys.keyFiles = [
-  ./.ssh/authorized_keys
-];
+    ./.ssh/authorized_keys
+  ];
 
-# NixOS option
-environment.systemPackages = with pkgs; [
-  neovim
-];
-
+  # NixOS option
+  environment.systemPackages = with pkgs; [
+    neovim
+    alacritty
+    gcc
+  ];
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.obi = {
